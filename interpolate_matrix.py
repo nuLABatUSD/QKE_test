@@ -99,7 +99,7 @@ def do_interpolation(x, x_array, P_arrays, fun=interpolate_log_linear):
     return np.array([fe_temp + fm_temp, 0, 0, (fe_temp - fm_temp)/(fe_temp + fm_temp + 1e-100)])
 
 
-def diff_plots(eps, rho, fun_e, fun_m, fun=interpolate_log_linear, fun_comp=interpolate_matrix):
+def diff_plots(eps, rho, fun_e, fun_m, fun=interpolate_log_linear, fun_comp=interpolate_matrix, return_Pz_absolute=False):
     eps_interp = np.linspace(0.01, np.max(eps)-0.01, 10000)
     interp_rho_P = np.zeros((len(eps_interp), 4))
     interp_rho_mat = np.zeros_like(interp_rho_P)
@@ -127,3 +127,11 @@ def diff_plots(eps, rho, fun_e, fun_m, fun=interpolate_log_linear, fun_comp=inte
     ax[0].legend(loc='upper right')
     ax[1].semilogy(eps_interp, Deltaz_P)
     ax[1].semilogy(eps_interp, Deltaz_mat)
+
+    ax[0].set_xlabel(r"$\epsilon$")
+    ax[0].set_ylabel(r"fractional error in $P_0$")
+    ax[1].set_xlabel(r"$\epsilon$")
+    ax[1].set_ylabel(r"fractional error in $P_z$")
+
+    if return_Pz_absolute:
+        return eps_interp, (interp_rho_P[:,3]-exact_P[:,3]), (interp_rho_mat[:,3]-exact_P[:,3])
