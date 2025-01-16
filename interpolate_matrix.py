@@ -65,6 +65,10 @@ def fifth_order_fit(x, x_data, y_data):
     return p
 
 def linear_fit(x, x_data, y_data):
+    result = (x - x_data[0])/(x_data[1]-x_data[0]) * y_data[1] 
+    result += (x - x_data[1])/(x_data[0]-x_data[1]) * y_data[0]
+    return result
+    
     z_fit = np.polyfit(x_data, y_data, 1)
     p_fit = np.poly1d(z_fit)
     return p_fit(x)
